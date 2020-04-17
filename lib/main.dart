@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:menuus_mobile/signin-screen.dart';
+import 'package:menuus_mobile/pages/login-screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,10 +11,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      themeMode: ThemeMode.dark,
       home: WelcomeScreen(),
     );
   }
@@ -59,16 +55,12 @@ class WelcomeScreen extends StatelessWidget {
                 FittedBox(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return SignInScreen();
-                        },
-                      ));
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => LoginScreen()));
                     },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 25),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 26, vertical: 16),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         color: Colors.red,
