@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menuus_mobile/pages/login-screen.dart';
+import 'package:menuus_mobile/pages/menu-listing.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'Welcome Screen',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        brightness: Brightness.dark,
       ),
       home: WelcomeScreen(),
     );
@@ -56,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                          context, MaterialPageRoute(builder: (context) => MenuListing()));
                     },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 25),

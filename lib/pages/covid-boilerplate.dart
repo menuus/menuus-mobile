@@ -10,6 +10,10 @@ class CovidBoilerplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(icon: Icon(Icons.restaurant), title: Text('restaurant')),
+        BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), title: Text('restaurant_menu')),
+      ]),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -44,9 +48,7 @@ class CovidBoilerplate extends StatelessWidget {
                       icon: FontAwesomeIcons.commentMedical,
                       color: Config.redColor),
                   ServiceCard(
-                      name: 'Health\nNews',
-                      icon: FontAwesomeIcons.rss,
-                      color: Config.orangeColor),
+                      name: 'Health\nNews', icon: FontAwesomeIcons.rss, color: Config.orangeColor),
                   ServiceCard(
                       name: 'Get Doctor\nAdvice',
                       icon: FontAwesomeIcons.userMd,
@@ -68,20 +70,14 @@ class CovidBoilerplate extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  StatsCard(
-                      country: 'Kenya', infected: 203, dead: 4, cured: 15),
-                  StatsCard(
-                      country: 'Uganda', infected: 2043, dead: 4, cured: 15),
-                  StatsCard(
-                      country: 'Tanzania', infected: 23, dead: 4, cured: 15),
+                  StatsCard(country: 'Kenya', infected: 203, dead: 4, cured: 15),
+                  StatsCard(country: 'Uganda', infected: 2043, dead: 4, cured: 15),
+                  StatsCard(country: 'Tanzania', infected: 23, dead: 4, cured: 15),
                   StatsCard(country: 'US', infected: 212, dead: 4, cured: 15),
                   StatsCard(country: 'UK', infected: 34, dead: 4, cured: 15),
-                  StatsCard(
-                      country: 'Russia', infected: 75, dead: 4, cured: 15),
-                  StatsCard(
-                      country: 'China', infected: 203, dead: 4, cured: 15),
-                  StatsCard(
-                      country: 'Italy', infected: 203, dead: 4, cured: 15),
+                  StatsCard(country: 'Russia', infected: 75, dead: 4, cured: 15),
+                  StatsCard(country: 'China', infected: 203, dead: 4, cured: 15),
+                  StatsCard(country: 'Italy', infected: 203, dead: 4, cured: 15),
                 ],
               ),
             ),
@@ -135,8 +131,7 @@ class CovidBoilerplate extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Icon(FontAwesomeIcons.mapMarkerAlt,
-            color: Config.primaryColor, size: 14),
+        Icon(FontAwesomeIcons.mapMarkerAlt, color: Config.primaryColor, size: 14),
         SizedBox(width: 4),
         Text(
           'Nairobi',
@@ -147,8 +142,7 @@ class CovidBoilerplate extends StatelessWidget {
           ),
         ),
         SizedBox(width: 4),
-        Icon(FontAwesomeIcons.chevronDown,
-            color: Config.primaryColor, size: 14),
+        Icon(FontAwesomeIcons.chevronDown, color: Config.primaryColor, size: 14),
       ],
     );
   }

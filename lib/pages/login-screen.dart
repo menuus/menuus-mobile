@@ -123,7 +123,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: mainColor,
                               size: 40,
                             ),
-                          )
+                          ),    
+                          FlatButton(onPressed: () {
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => CovidBoilerplate()));
+                            }, child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: mainColor,
+                              size: 40,
+                            ),)                      
                         ],
                       ),
                     ),
