@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menuus_mobile/models/food_model.dart';
+import 'package:menuus_mobile/pages/covid-boilerplate.dart';
 import 'package:menuus_mobile/widgets/food_card.dart';
 
 class MenuListing extends StatefulWidget {
@@ -12,7 +13,8 @@ class _MenuListingState extends State<MenuListing> {
   final List<Widget> _children = [
     RestaurantListing(),
     AnimatedContainer(color: Colors.blue, duration: Duration(milliseconds: 300)),
-    AnimatedContainer(color: Colors.red, duration: Duration(milliseconds: 300)),
+    // AnimatedContainer(color: Colors.red, duration: Duration(milliseconds: 300)),
+    CovidBoilerplate(),
   ];
 
   @override
