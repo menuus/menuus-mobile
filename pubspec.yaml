@@ -23,10 +23,23 @@ dependencies:
   font_awesome_flutter: 8.8.1
   cupertino_icons: ^0.1.2
 
+  # state management
+  stacked: ^1.2.2
+  # navigation
+  auto_route:
+  stacked_services:
+  # inversion of control
+  get_it:
+  injectable:
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner:
+  auto_route_generator:
+  injectable_generator:
 
 
 # For information on the generic Dart part of this file, see the
