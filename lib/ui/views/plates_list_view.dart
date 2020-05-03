@@ -1,30 +1,63 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-class PlatesListView extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:menuus_mobile/services/http_service.dart';
+
+class PlatesListView extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return _plateRow();
-        });
+  _PlatesListViewState createState() => _PlatesListViewState();
+}
+
+class _PlatesListViewState extends State<PlatesListView> {
+  double _plateCardHeight = 120;
+  double _plateCardWidth = 300;
+
+  Future plates$;
+
+  @override
+  void initState() {
+    super.initState();
+    plates$ = getPlates();
   }
 
-  Container _plateRow() {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FutureBuilder(
+        future: plates$,
+        builder: (context, snapshot) {
+          return snapshot.data != null
+              ? ListView(
+                  children: <Widget>[
+                    _plateCategory('Lanches', snapshot.data),
+                    _plateCategory('Massas', snapshot.data),
+                    _plateCategory('Bebidas', snapshot.data),
+                    _plateCategory('Sobremesas', snapshot.data),
+                  ],
+                )
+              : CircularProgressIndicator();
+        },
+      ),
+    );
+  }
+
+  Container _plateCategory(String plateCategory, plates) {
+    print('\n\n PLATES \n\n');
+    print(plates);
     return Container(
       margin: EdgeInsets.all(10),
       width: double.maxFinite,
       color: Colors.blue,
       child: Column(
         children: <Widget>[
-          Text('Tipo de prato'),
+          Text(plateCategory),
           Container(
-            height: 100,
+            height: _plateCardHeight,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 20,
+              itemCount: plates.length,
               itemBuilder: (context, index) {
-                return _plateCard();
+                return _plateCard(plates[index]);
               },
             ),
           ),
@@ -33,8 +66,11 @@ class PlatesListView extends StatelessWidget {
     );
   }
 
-  Container _plateCard() {
+  Container _plateCard(plate) {
+    print('\n\n PRATO \n\n');
+    print(plate);
     return Container(
+      width: _plateCardWidth,
       margin: EdgeInsets.all(10),
       color: Colors.green,
       child: Card(
@@ -42,9 +78,24 @@ class PlatesListView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Text('nome do prato'),
-            Text('foto do prato'),
+            Text('${plate['name']}'),
+            _foodImage(plate['images']),
           ],
+        ),
+      ),
+    );
+  }
+
+  Container _foodImage(images) {
+    print('\n\n IMAGE \n\n');
+    print(images);
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(images.length > 0 ? images[0]['path'] : ''),
         ),
       ),
     );

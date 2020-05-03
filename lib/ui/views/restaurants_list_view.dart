@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:menuus_mobile/models/food_model.dart';
-import 'package:menuus_mobile/widgets/food_card.dart';
+import 'package:menuus_mobile/services/http_service.dart';
 
 class RestaurantListView extends StatefulWidget {
   const RestaurantListView({
@@ -13,55 +12,51 @@ class RestaurantListView extends StatefulWidget {
 }
 
 class _RestaurantListViewState extends State<RestaurantListView> {
-
-  List<Food> initialFoodList = []
-    ..add(Food('comidinha', 'restaurante', 'quasi architecto beatae vitae'))
-    ..add(Food('comidao', 'lanchonete', 'accusantium doloremque laudantium'))
-    ..add(Food('burguinho', 'foodtruck', 'aut fugit, sed quia'))
-    ..add(Food('burgao', 'sorveteria', 'veniam, quis nostrum'))
-    ..add(Food('cachaça', 'boteco', 'modi tempora incidunt'));
-
   double _restaurantMenuHeight = 400;
   double _restaurantMenuWidth = 300;
+
+  Future establishments$;
+
+  @override
+  void initState() {
+    super.initState();
+    establishments$ = getEstablishments();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CarouselSlider.builder(
-        itemCount: 5,
-        options: CarouselOptions(
-          autoPlay: false,
-          enableInfiniteScroll: true,
-          enlargeCenterPage: true,
-          height: _restaurantMenuHeight,
-          viewportFraction: 0.8,
-        ),
-        itemBuilder: (context, index) {
-          return _restaurantMenu();
+      child: FutureBuilder(
+        future: establishments$,
+        builder: (context, snapshot) {
+          return snapshot.data != null ? _buildCarouselSlider(snapshot.data) : CircularProgressIndicator();
         },
       ),
     );
   }
 
-  Container _restaurantMenu() {
+  CarouselSlider _buildCarouselSlider(establishments) {
+    return CarouselSlider.builder(
+      itemCount: establishments.length,
+      options: CarouselOptions(
+        autoPlay: false,
+        enableInfiniteScroll: true,
+        enlargeCenterPage: true,
+        height: _restaurantMenuHeight,
+        viewportFraction: 0.8,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return _restaurantMenu(establishments[index]);
+      },
+    );
+  }
+
+  Container _restaurantMenu(establishment) {
     return Container(
       width: _restaurantMenuWidth,
       color: Colors.red,
       child: Center(
-        child: Text('cardapio restaurante'),
-      ),
-    );
-  }
-
-  Container _oldDogsList() {
-    return Container(
-      child: Center(
-        child: ListView.builder(
-          itemCount: initialFoodList.length,
-          itemBuilder: (context, int) {
-            return FoodCard(initialFoodList[int]);
-          },
-        ),
+        child: Text('name: ${establishment['name']}\ndescription: ${establishment['description']}\n'),
       ),
     );
   }

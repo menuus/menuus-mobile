@@ -20,8 +20,9 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: 0.3.10
+  http: 0.12.1
   font_awesome_flutter: 8.8.1 
-  cupertino_icons: ^0.1.2
+  cupertino_icons: 0.1.2
   carousel_slider: 2.1.0
 
 
