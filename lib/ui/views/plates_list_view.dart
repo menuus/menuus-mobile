@@ -42,8 +42,6 @@ class _PlatesListViewState extends State<PlatesListView> {
   }
 
   Container _plateCategory(String plateCategory, plates) {
-    print('\n\n PLATES \n\n');
-    print(plates);
     return Container(
       margin: EdgeInsets.all(10),
       width: double.maxFinite,
@@ -67,8 +65,6 @@ class _PlatesListViewState extends State<PlatesListView> {
   }
 
   Container _plateCard(plate) {
-    print('\n\n PRATO \n\n');
-    print(plate);
     return Container(
       width: _plateCardWidth,
       margin: EdgeInsets.all(10),
@@ -87,8 +83,6 @@ class _PlatesListViewState extends State<PlatesListView> {
   }
 
   Container _foodImage(images) {
-    print('\n\n IMAGE \n\n');
-    print(images);
     return Container(
       width: 100,
       height: 100,
