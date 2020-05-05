@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:menuus_mobile/models/food_model.dart';
-import 'package:menuus_mobile/pages/covid-boilerplate.dart';
-import 'package:menuus_mobile/widgets/food_card.dart';
+import 'package:menuus_mobile/ui/views/plates_list_view.dart';
+import 'package:menuus_mobile/ui/views/restaurants_list_view.dart';
+import 'package:menuus_mobile/ui/views/user_orders_view.dart';
 
 class MenuListing extends StatefulWidget {
   @override
@@ -11,10 +11,9 @@ class MenuListing extends StatefulWidget {
 class _MenuListingState extends State<MenuListing> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    RestaurantListing(),
-    AnimatedContainer(color: Colors.blue, duration: Duration(milliseconds: 300)),
-    // AnimatedContainer(color: Colors.red, duration: Duration(milliseconds: 300)),
-    CovidBoilerplate(),
+    RestaurantListView(),
+    PlatesListView(),
+    UserOrdersView(),
   ];
 
   @override
@@ -27,7 +26,7 @@ class _MenuListingState extends State<MenuListing> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.restaurant), title: Text('Restaurantes')),
           BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), title: Text('Pratos')),
-          BottomNavigationBarItem(icon: Icon(Icons.kitchen), title: Text('Teste')),
+          BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('Meus pedidos')),
         ],
       ),
       body: _children[_currentIndex],
@@ -38,41 +37,5 @@ class _MenuListingState extends State<MenuListing> {
     setState(() {
       _currentIndex = index;
     });
-  }
-}
-
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
-
-class RestaurantListing extends StatefulWidget {
-  const RestaurantListing({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _RestaurantListingState createState() => _RestaurantListingState();
-}
-
-class _RestaurantListingState extends State<RestaurantListing> {
-  List<Food> initialFoodList = []
-    ..add(Food('comidinha', 'restaurante', 'quasi architecto beatae vitae'))
-    ..add(Food('comidao', 'lanchonete', 'accusantium doloremque laudantium'))
-    ..add(Food('burguinho', 'foodtruck', 'aut fugit, sed quia'))
-    ..add(Food('burgao', 'sorveteria', 'veniam, quis nostrum'))
-    ..add(Food('cachaça', 'boteco', 'modi tempora incidunt'));
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: ListView.builder(
-          itemCount: initialFoodList.length,
-          itemBuilder: (context, int) {
-            return FoodCard(initialFoodList[int]);
-          },
-        ),
-      ),
-    );
   }
 }
