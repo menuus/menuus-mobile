@@ -9,8 +9,7 @@ class PlatesListView extends StatefulWidget {
 }
 
 class _PlatesListViewState extends State<PlatesListView> {
-  double _plateCardHeight = 120;
-  double _plateCardWidth = 300;
+  double _gridItemWidth;
 
   Future plates$;
 
@@ -22,23 +21,63 @@ class _PlatesListViewState extends State<PlatesListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder(
-        future: plates$,
-        builder: (context, snapshot) {
-          return snapshot.data != null
-              ? ListView(
-                  children: <Widget>[
-                    _plateCategory('Lanches', snapshot.data),
-                    _plateCategory('Massas', snapshot.data),
-                    _plateCategory('Bebidas', snapshot.data),
-                    _plateCategory('Sobremesas', snapshot.data),
-                  ],
-                )
-              : CircularProgressIndicator();
-        },
-      ),
+    _gridItemWidth = MediaQuery.of(context).size.width / 3 - 3;
+
+    return FutureBuilder(
+      future: plates$,
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          return ListView(
+            children: <Widget>[
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+                Text('filtro1'),
+                Text('filtro2'),
+                Text('filtro3'),
+              ]),
+              Center(
+                child: Wrap(
+                  runSpacing: 2,
+                  spacing: 2,
+                  children: buildContainer(snapshot.data),
+                ),
+              ),
+            ],
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
+  }
+
+  List<Widget> buildContainer(List plates) {
+    List<Widget> list = [];
+    for (var plate in plates) {
+      list.add(
+        Container(
+          height: _gridItemWidth,
+          width: _gridItemWidth,
+          decoration: BoxDecoration(
+            color: Colors.red,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage('https://picsum.photos/200/300?random=${plate['id']}'),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text(plate['name']),
+              Text(plate['images'] != null && plate['images'].length > 0 
+                  ? plate['images'][0]['path']  
+                  : 'NO-URL'),
+            ],
+          ),
+        ),
+      );
+    }
+    for (var i = 0; i < plates.length; i++) {}
+    return list;
   }
 
   Container _plateCategory(String plateCategory, plates) {
@@ -50,7 +89,7 @@ class _PlatesListViewState extends State<PlatesListView> {
         children: <Widget>[
           Text(plateCategory),
           Container(
-            height: _plateCardHeight,
+            height: 200,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: plates.length,
@@ -66,7 +105,7 @@ class _PlatesListViewState extends State<PlatesListView> {
 
   Container _plateCard(plate) {
     return Container(
-      width: _plateCardWidth,
+      width: 200,
       margin: EdgeInsets.all(10),
       color: Colors.green,
       child: Card(
