@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:menuus_mobile/services/http_service.dart';
-import 'package:menuus_mobile/widgets/bottom_menu_bar.dart';
 
 class PlatesListView extends StatefulWidget {
   @override
@@ -9,7 +8,6 @@ class PlatesListView extends StatefulWidget {
 
 class _PlatesListViewState extends State<PlatesListView> {
   double _gridItemWidth;
-
   Future plates$;
 
   @override
@@ -22,51 +20,48 @@ class _PlatesListViewState extends State<PlatesListView> {
   Widget build(BuildContext context) {
     _gridItemWidth = MediaQuery.of(context).size.width / 3 - 3;
 
-    return Scaffold(
-      body: FutureBuilder(
-        future: plates$,
-        builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            return Column(
-              children: <Widget>[
-                Container(
-                  height: 50,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      Row(
-                        children: <Widget>[
-                          CategoryFilterCard('teste1'),
-                          CategoryFilterCard('teste2'),
-                          CategoryFilterCard('teste3'),
-                          CategoryFilterCard('teste4'),
-                          CategoryFilterCard('teste5'),
-                        ],
-                      ),
-                    ],
-                  ),
+    return FutureBuilder(
+      future: plates$,
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          return Column(
+            children: <Widget>[
+              Container(
+                height: 50,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        CategoryFilterCard('teste1'),
+                        CategoryFilterCard('teste2'),
+                        CategoryFilterCard('teste3'),
+                        CategoryFilterCard('teste4'),
+                        CategoryFilterCard('teste5'),
+                      ],
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      Center(
-                        child: Wrap(
-                          runSpacing: 2,
-                          spacing: 2,
-                          children: buildContainer(snapshot.data),
-                        ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    Center(
+                      child: Wrap(
+                        runSpacing: 2,
+                        spacing: 2,
+                        children: buildContainer(snapshot.data),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      bottomNavigationBar: BottomMenuBar(),
+              ),
+            ],
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 
@@ -96,60 +91,6 @@ class _PlatesListViewState extends State<PlatesListView> {
     }
     for (var i = 0; i < plates.length; i++) {}
     return list;
-  }
-
-  Container _plateCategory(String plateCategory, plates) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      width: double.maxFinite,
-      color: Colors.blue,
-      child: Column(
-        children: <Widget>[
-          Text(plateCategory),
-          Container(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: plates.length,
-              itemBuilder: (context, index) {
-                return _plateCard(plates[index]);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _plateCard(plate) {
-    return Container(
-      width: 200,
-      margin: EdgeInsets.all(10),
-      color: Colors.green,
-      child: Card(
-        margin: EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('${plate['name']}'),
-            _foodImage(plate['images']),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container _foodImage(images) {
-    return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(images.length > 0 ? images[0]['path'] : ''),
-        ),
-      ),
-    );
   }
 }
 

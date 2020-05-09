@@ -1,46 +1,116 @@
 import 'package:flutter/material.dart';
 
-class BottomMenuBar extends StatefulWidget {
-  BottomMenuBar({Key key}) : super(key: key);
-
-  @override
-  _BottomMenuBarState createState() => _BottomMenuBarState();
+class BottomMenuBarItem {
+  BottomMenuBarItem({this.iconData, this.text});
+  IconData iconData;
+  String text;
 }
 
-class _BottomMenuBarState extends State<BottomMenuBar> {
+class BottomMenuBar extends StatefulWidget {
+  BottomMenuBar({
+    this.items,
+    this.centerItemText,
+    this.height: 60.0,
+    this.iconSize: 24.0,
+    this.backgroundColor,
+    this.color,
+    this.selectedColor,
+    this.notchedShape,
+    this.onTabSelected,
+  }) {
+    assert(this.items.length == 2 || this.items.length == 4);
+  }
+  final List<BottomMenuBarItem> items;
+  final String centerItemText;
+  final double height;
+  final double iconSize;
+  final Color backgroundColor;
+  final Color color;
+  final Color selectedColor;
+  final NotchedShape notchedShape;
+  final ValueChanged<int> onTabSelected;
+
+  @override
+  State<StatefulWidget> createState() => BottomMenuBarState();
+}
+
+class BottomMenuBarState extends State<BottomMenuBar> {
+  int _selectedIndex = 0;
+
+  _updateIndex(int index) {
+    widget.onTabSelected(index);
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      color: Colors.white,
+    List<Widget> items = List.generate(widget.items.length, (int index) {
+      return _buildTabItem(
+        item: widget.items[index],
+        index: index,
+        onPressed: _updateIndex,
+      );
+    });
+    items.insert(items.length >> 1, _buildMiddleTabItem());
+
+    return BottomAppBar(
+      shape: widget.notchedShape,
       child: Row(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          IconButton(
-              icon: Icon(Icons.restaurant),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/establishments');
-              }),
-          Container(
-            width: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0.00, 3.00),
-                  color: Color(0xff000000).withOpacity(0.16),
-                  blurRadius: 8,
-                ),
+        children: items,
+      ),
+      color: widget.backgroundColor,
+    );
+  }
+
+  Widget _buildMiddleTabItem() {
+    return Expanded(
+      child: SizedBox(
+        height: widget.height,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: widget.iconSize),
+            Text(
+              widget.centerItemText ?? '',
+              style: TextStyle(color: widget.color),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabItem({
+    BottomMenuBarItem item,
+    int index,
+    ValueChanged<int> onPressed,
+  }) {
+    Color color = _selectedIndex == index ? widget.selectedColor : widget.color;
+    return Expanded(
+      child: SizedBox(
+        height: widget.height,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => onPressed(index),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(item.iconData, color: color, size: widget.iconSize),
+                Text(
+                  item.text,
+                  style: TextStyle(color: color),
+                )
               ],
             ),
           ),
-          IconButton(
-              icon: Icon(Icons.restaurant_menu),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/plates');
-              }),
-        ],
+        ),
       ),
     );
   }

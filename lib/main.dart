@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:menuus_mobile/ui/views/plates_list_view.dart';
-import 'package:menuus_mobile/ui/views/restaurants_list_view.dart';
+import 'package:menuus_mobile/pages/menu-listing.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,15 +8,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      // home: WelcomeScreen(),
+      theme: ThemeData(primarySwatch: Colors.red),
       initialRoute: '/login',
       routes: {
         '/login': (context) => WelcomeScreen(),
-        '/establishments': (context) => RestaurantListView(),
-        '/plates': (context) => PlatesListView(),
+        '/menu-listing': (context) => MenuListing(),
       },
     );
   }
@@ -31,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
         child: RaisedButton(
           child: Text('() => onLogin'),
           onPressed: () {
-            Navigator.pushNamed(context, '/establishments');
+            Navigator.pushNamed(context, '/menu-listing');
           },
         ),
       ),
