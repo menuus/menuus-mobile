@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:menuus_mobile/services/http_service.dart';
+import 'package:menuus_mobile/widgets/bottom_menu_bar.dart';
 
 class RestaurantListView extends StatefulWidget {
   const RestaurantListView({
@@ -25,13 +26,16 @@ class _RestaurantListViewState extends State<RestaurantListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder(
-        future: establishments$,
-        builder: (context, snapshot) {
-          return snapshot.data != null ? _buildCarouselSlider(snapshot.data) : CircularProgressIndicator();
-        },
+    return Scaffold(
+      body: Center(
+        child: FutureBuilder(
+          future: establishments$,
+          builder: (context, snapshot) {
+            return snapshot.data != null ? _buildCarouselSlider(snapshot.data) : CircularProgressIndicator();
+          },
+        ),
       ),
+      bottomNavigationBar: BottomMenuBar(),
     );
   }
 
