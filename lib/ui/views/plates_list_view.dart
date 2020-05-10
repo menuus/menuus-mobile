@@ -8,11 +8,13 @@ class PlatesListView extends StatefulWidget {
 
 class _PlatesListViewState extends State<PlatesListView> {
   double _gridItemWidth;
+  Future plateCategories$;
   Future plates$;
 
   @override
   void initState() {
     super.initState();
+    plateCategories$ = getPlateCategories();
     plates$ = getPlates();
   }
 
@@ -20,52 +22,62 @@ class _PlatesListViewState extends State<PlatesListView> {
   Widget build(BuildContext context) {
     _gridItemWidth = MediaQuery.of(context).size.width / 3 - 3;
 
-    return FutureBuilder(
-      future: plates$,
-      builder: (context, snapshot) {
-        if (snapshot.data != null) {
-          return Column(
-            children: <Widget>[
-              Container(
-                height: 50,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    Row(
-                      children: <Widget>[
-                        CategoryFilterCard('teste1'),
-                        CategoryFilterCard('teste2'),
-                        CategoryFilterCard('teste3'),
-                        CategoryFilterCard('teste4'),
-                        CategoryFilterCard('teste5'),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    Center(
-                      child: Wrap(
-                        runSpacing: 2,
-                        spacing: 2,
-                        children: buildContainer(snapshot.data),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
+    return Column(
+      children: <Widget>[
+        buildCategoriesRow(),
+        buildGrid(),
+      ],
     );
   }
 
-  List<Widget> buildContainer(List plates) {
+  Widget buildCategoriesRow() {
+    return Container(
+      height: 50,
+      child: FutureBuilder(
+        future: plateCategories$,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data != null) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+              return CategoryFilterCard(snapshot.data[index]['name']);
+             },
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildGrid() {
+    return Expanded(
+      child: FutureBuilder(
+        future: plates$,
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
+            return ListView(
+              children: <Widget>[
+                Center(
+                  child: Wrap(
+                    runSpacing: 2,
+                    spacing: 2,
+                    children: buildGridItem(snapshot.data),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
+  }
+
+  List<Widget> buildGridItem(List plates) {
     List<Widget> list = [];
     for (var plate in plates) {
       list.add(
@@ -83,6 +95,7 @@ class _PlatesListViewState extends State<PlatesListView> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Text(plate['name']),
+              Text('R\$ ${plate['price']}'),
               Text(plate['images'] != null && plate['images'].length > 0 ? plate['images'][0]['path'] : 'NO-URL'),
             ],
           ),
@@ -114,17 +127,19 @@ class _CategoryFilterCardState extends State<CategoryFilterCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 14),
-      decoration: BoxDecoration(
-        color: Color(0xffffffff),
-        border: Border.all(width: 1.00, color: Color(0xffcccccc)),
-        borderRadius: BorderRadius.circular(3),
-      ),
-      child: Text(
-        category,
-        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Color(0xff707070)),
+    return Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(width: 1.00, color: Color(0xffcccccc)),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: Text(
+          category,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Color(0xff707070)),
+        ),
       ),
     );
   }

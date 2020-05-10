@@ -39,6 +39,7 @@ class _MenuListingState extends State<MenuListing> {
     return Scaffold(
       appBar: AppBar(title: Text(_appBarTitle)),
       body: _tabRoutingList[_selectedTabIndex],
+      extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _buildFab(context),
       bottomNavigationBar: BottomMenuBar(
