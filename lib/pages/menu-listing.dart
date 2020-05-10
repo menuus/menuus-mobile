@@ -54,7 +54,7 @@ class _MenuListingState extends State<MenuListing> {
   }
 
   Widget _buildFab(BuildContext context) {
-    final icons = [Icons.sms, Icons.mail, Icons.phone];
+    final icons = [Icons.fastfood, Icons.ac_unit, Icons.local_bar];
     return AnchoredOverlay(
       showOverlay: true,
       overlayBuilder: (context, offset) {

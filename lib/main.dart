@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
         child: RaisedButton(
           child: Text('() => onLogin'),
           onPressed: () {
-            Navigator.pushNamed(context, '/menu-listing');
+            Navigator.pushReplacementNamed(context, '/menu-listing');
           },
         ),
       ),

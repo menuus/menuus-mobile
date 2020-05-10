@@ -12,8 +12,8 @@ class RestaurantListView extends StatefulWidget {
 }
 
 class _RestaurantListViewState extends State<RestaurantListView> {
-  double _restaurantMenuHeight = 400;
-  double _restaurantMenuWidth = 300;
+  double _restaurantMenuHeight = 500;
+  double _restaurantMenuWidth = 400;
   Future establishments$;
 
   @override
@@ -25,11 +25,11 @@ class _RestaurantListViewState extends State<RestaurantListView> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: FutureBuilder(
-          future: establishments$,
-          builder: (context, snapshot) {
-            return snapshot.data != null ? _buildCarouselSlider(snapshot.data) : CircularProgressIndicator();
-          },
+      child: FutureBuilder(
+        future: establishments$,
+        builder: (context, snapshot) {
+          return snapshot.data != null ? _buildCarouselSlider(snapshot.data) : CircularProgressIndicator();
+        },
       ),
     );
   }
@@ -53,9 +53,31 @@ class _RestaurantListViewState extends State<RestaurantListView> {
   Container _restaurantMenu(establishment) {
     return Container(
       width: _restaurantMenuWidth,
-      color: Colors.red,
-      child: Center(
-        child: Text('name: ${establishment['name']}\ndescription: ${establishment['description']}\n'),
+      padding: EdgeInsets.fromLTRB(5, 5, 5, 75),
+      child: Material(
+        elevation: 3,
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.grey[100],
+        type: MaterialType.card,
+        child: InkWell(
+          onTap: () {},
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text('id: ${establishment['id']}'),
+                  Text('food_court_id: ${establishment['food_court_id']}'),
+                  Text('establishment_category_id: ${establishment['establishment_category_id']}'),
+                  Text('name: ${establishment['name']}'),
+                  Text('description: ${establishment['description']}'),
+                  Text('plates: ${establishment['plates'].length}'),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
