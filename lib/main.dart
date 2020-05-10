@@ -8,11 +8,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        brightness: Brightness.dark,
-      ),
-      home: WelcomeScreen(),
+      theme: ThemeData(primarySwatch: Colors.red),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => WelcomeScreen(),
+        '/menu-listing': (context) => MenuListing(),
+      },
     );
   }
 }
@@ -25,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
         child: RaisedButton(
           child: Text('() => onLogin'),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MenuListing()));
+            Navigator.pushNamed(context, '/menu-listing');
           },
         ),
       ),
