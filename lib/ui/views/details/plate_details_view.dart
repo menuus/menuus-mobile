@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/services/http_service.dart';
 
 class PlateDetailsView extends StatefulWidget {
@@ -14,6 +17,8 @@ class _PlateDetailsViewState extends State<PlateDetailsView> {
   var plate;
   Future plate$;
 
+  final cart = GetIt.I.get<CartController>();
+
   _PlateDetailsViewState(this.plate);
 
   @override
@@ -25,7 +30,22 @@ class _PlateDetailsViewState extends State<PlateDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(plate['name'])),
+      appBar: AppBar(
+        title: Text(plate['name']),
+        actions: <Widget>[
+          Center(
+            child: Observer(builder: (_) {
+              return Text(cart.total.toString());
+            }),
+          ),
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.pushNamed(context, '/checkout');
+            },
+          ),
+        ],
+      ),
       floatingActionButton: null,
       body: FutureBuilder(
         future: plate$,
@@ -43,6 +63,13 @@ class _PlateDetailsViewState extends State<PlateDetailsView> {
                   Text('created_at: ${plate['created_at']}'),
                   Text('updated_at: ${plate['updated_at']}'),
                   Text('images: ${plate['images'].length}'),
+                  SizedBox(height: 50),
+                  RaisedButton(
+                    child: Text('Adicionar ao carrinho'),
+                    onPressed: () {
+                      cart.addToCart(plate['name']);
+                    },
+                  ),
                 ],
               ),
             );

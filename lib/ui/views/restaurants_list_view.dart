@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/services/http_service.dart';
 
 class RestaurantListView extends StatefulWidget {
@@ -15,6 +17,8 @@ class _RestaurantListViewState extends State<RestaurantListView> {
   double _restaurantMenuHeight = 500;
   double _restaurantMenuWidth = 400;
   Future establishments$;
+
+  final cart = GetIt.I.get<CartController>();
 
   @override
   void initState() {
@@ -56,11 +60,11 @@ class _RestaurantListViewState extends State<RestaurantListView> {
       padding: EdgeInsets.fromLTRB(5, 5, 5, 75),
       child: Material(
         elevation: 3,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8), 
         color: Colors.grey[100],
         type: MaterialType.card,
         child: InkWell(
-          onTap: () {},
+          onTap: () {cart.addToCart(establishment['name']);},
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Center(

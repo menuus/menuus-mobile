@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/pages/menu-listing.dart';
+import 'package:menuus_mobile/ui/views/checkout_view.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  GetIt getIt = GetIt.I;
+  getIt.registerSingleton<CartController>(CartController());
+  
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => WelcomeScreen(),
         '/menu-listing': (context) => MenuListing(),
+        '/checkout': (context) => CheckoutView(),
       },
     );
   }
