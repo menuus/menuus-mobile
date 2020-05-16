@@ -69,7 +69,7 @@ class FloatingDialButtonState extends State<FloatingDialButton> with TickerProvi
         }
       },
       tooltip: 'Increment',
-      child: Icon(Icons.add),
+      child: Icon(Icons.fastfood),
       elevation: 2.0,
     );
   }

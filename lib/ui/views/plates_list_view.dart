@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:menuus_mobile/models/plate_model.dart';
 import 'package:menuus_mobile/services/http_service.dart';
+import 'package:menuus_mobile/ui/views/details/plate_details_view.dart';
 
 class PlatesListView extends StatefulWidget {
   @override
@@ -9,7 +11,7 @@ class PlatesListView extends StatefulWidget {
 class _PlatesListViewState extends State<PlatesListView> {
   double _gridItemWidth;
   Future plateCategories$;
-  Future plates$;
+  Future<List<Plate>> plates$;
 
   @override
   void initState() {
@@ -20,7 +22,7 @@ class _PlatesListViewState extends State<PlatesListView> {
 
   @override
   Widget build(BuildContext context) {
-    _gridItemWidth = MediaQuery.of(context).size.width / 3 - 3;
+    _gridItemWidth = MediaQuery.of(context).size.width / 3 - 2;
 
     return Column(
       children: <Widget>[
@@ -41,8 +43,8 @@ class _PlatesListViewState extends State<PlatesListView> {
               itemCount: snapshot.data.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-              return CategoryFilterCard(snapshot.data[index]['name']);
-             },
+                return CategoryFilterCard(snapshot.data[index]);
+              },
             );
           } else {
             return Center(child: CircularProgressIndicator());
@@ -64,7 +66,7 @@ class _PlatesListViewState extends State<PlatesListView> {
                   child: Wrap(
                     runSpacing: 2,
                     spacing: 2,
-                    children: buildGridItem(snapshot.data),
+                    children: buildGridItems(snapshot.data),
                   ),
                 ),
               ],
@@ -77,32 +79,36 @@ class _PlatesListViewState extends State<PlatesListView> {
     );
   }
 
-  List<Widget> buildGridItem(List plates) {
+  List<Widget> buildGridItems(List<Plate> plates) {
     List<Widget> list = [];
-    for (var plate in plates) {
+    for (Plate plate in plates) {
       list.add(
-        Container(
-          height: _gridItemWidth,
-          width: _gridItemWidth,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage('https://picsum.photos/200/300?random=${plate['id']}'),
+        InkWell(
+          child: Container(
+            height: _gridItemWidth,
+            width: _gridItemWidth,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage('https://picsum.photos/200/300?random=${plate.id}'),
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text(plate.name),
+                Text('R\$ ${plate.price}'),
+                Text(plate.images != null && plate.images.length > 0 ? plate.images[0].path : 'NO-URL'),
+              ],
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Text(plate['name']),
-              Text('R\$ ${plate['price']}'),
-              Text(plate['images'] != null && plate['images'].length > 0 ? plate['images'][0]['path'] : 'NO-URL'),
-            ],
-          ),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PlateDetailsView(plate)));
+          },
         ),
       );
     }
-    for (var i = 0; i < plates.length; i++) {}
     return list;
   }
 }
@@ -112,7 +118,7 @@ class _PlatesListViewState extends State<PlatesListView> {
 // ------------------------------------------------------------------------------------------------
 
 class CategoryFilterCard extends StatefulWidget {
-  final String category;
+  final category;
 
   CategoryFilterCard(this.category);
 
@@ -121,7 +127,7 @@ class CategoryFilterCard extends StatefulWidget {
 }
 
 class _CategoryFilterCardState extends State<CategoryFilterCard> {
-  String category;
+  var category;
 
   _CategoryFilterCardState(this.category);
 
@@ -130,15 +136,24 @@ class _CategoryFilterCardState extends State<CategoryFilterCard> {
     return Center(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 8),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 14),
         decoration: BoxDecoration(
-          color: Colors.white,
           border: Border.all(width: 1.00, color: Color(0xffcccccc)),
           borderRadius: BorderRadius.circular(3),
         ),
-        child: Text(
-          category,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Color(0xff707070)),
+        child: Material(
+          color: Colors.white,
+          type: MaterialType.button,
+          elevation: 1,
+          child: InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+              child: Text(
+                category['name'],
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Color(0xff707070)),
+              ),
+            ),
+          ),
         ),
       ),
     );

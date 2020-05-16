@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/ui/views/plates_list_view.dart';
 import 'package:menuus_mobile/ui/views/restaurants_list_view.dart';
 import 'package:menuus_mobile/utils/layout_utils.dart';
@@ -22,6 +25,8 @@ class _MenuListingState extends State<MenuListing> {
     BottomMenuBarItem(iconData: Icons.restaurant_menu, text: 'Pratos'),
   ];
 
+  final cart = GetIt.I.get<CartController>();
+
   void _onFloatingCategorySelection(int index) {
     setState(() {
       _appBarTitle = 'Categorias de index $index';
@@ -37,11 +42,26 @@ class _MenuListingState extends State<MenuListing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_appBarTitle)),
+      appBar: AppBar(
+        title: Text(_appBarTitle),
+        actions: <Widget>[
+          Center(
+            child: Observer(builder: (_) {
+              return Text(cart.total.toString());
+            }),
+          ),
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.pushNamed(context, '/checkout');
+            },
+          ),
+        ],
+      ),
       body: _tabRoutingList[_selectedTabIndex],
       extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _buildFab(context),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: _buildFab(context),
       bottomNavigationBar: BottomMenuBar(
         centerItemText: 'Cardápios',
         color: Colors.grey,
@@ -54,7 +74,7 @@ class _MenuListingState extends State<MenuListing> {
   }
 
   Widget _buildFab(BuildContext context) {
-    final icons = [Icons.sms, Icons.mail, Icons.phone];
+    final icons = [Icons.fastfood, Icons.ac_unit, Icons.local_bar];
     return AnchoredOverlay(
       showOverlay: true,
       overlayBuilder: (context, offset) {
