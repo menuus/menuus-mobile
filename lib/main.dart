@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:menuus_mobile/controllers/cart_controller.dart';
+import 'package:menuus_mobile/controllers/credit_card_controller.dart';
 import 'package:menuus_mobile/pages/menu-listing.dart';
 import 'package:menuus_mobile/ui/views/checkout_view.dart';
 
 void main() {
   GetIt getIt = GetIt.I;
   getIt.registerSingleton<CartController>(CartController());
+  getIt.registerSingleton<CreditCardController>(CreditCardController());
   
   runApp(MyApp());
 }
