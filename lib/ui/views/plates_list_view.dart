@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menuus_mobile/models/plate_model.dart';
 import 'package:menuus_mobile/services/http_service.dart';
 import 'package:menuus_mobile/ui/views/details/plate_details_view.dart';
 
@@ -10,7 +11,7 @@ class PlatesListView extends StatefulWidget {
 class _PlatesListViewState extends State<PlatesListView> {
   double _gridItemWidth;
   Future plateCategories$;
-  Future plates$;
+  Future<List<Plate>> plates$;
 
   @override
   void initState() {
@@ -78,9 +79,9 @@ class _PlatesListViewState extends State<PlatesListView> {
     );
   }
 
-  List<Widget> buildGridItems(List plates) {
+  List<Widget> buildGridItems(List<Plate> plates) {
     List<Widget> list = [];
-    for (var plate in plates) {
+    for (Plate plate in plates) {
       list.add(
         InkWell(
           child: Container(
@@ -90,15 +91,15 @@ class _PlatesListViewState extends State<PlatesListView> {
               color: Colors.grey[300],
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage('https://picsum.photos/200/300?random=${plate['id']}'),
+                image: NetworkImage('https://picsum.photos/200/300?random=${plate.id}'),
               ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text(plate['name']),
-                Text('R\$ ${plate['price']}'),
-                Text(plate['images'] != null && plate['images'].length > 0 ? plate['images'][0]['path'] : 'NO-URL'),
+                Text(plate.name),
+                Text('R\$ ${plate.price}'),
+                Text(plate.images != null && plate.images.length > 0 ? plate.images[0].path : 'NO-URL'),
               ],
             ),
           ),

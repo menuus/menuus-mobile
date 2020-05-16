@@ -19,13 +19,13 @@ mixin _$CartController on _CartControllerBase, Store {
   final _$cartPlatesAtom = Atom(name: '_CartControllerBase.cartPlates');
 
   @override
-  ObservableList<String> get cartPlates {
+  ObservableList<Plate> get cartPlates {
     _$cartPlatesAtom.reportRead();
     return super.cartPlates;
   }
 
   @override
-  set cartPlates(ObservableList<String> value) {
+  set cartPlates(ObservableList<Plate> value) {
     _$cartPlatesAtom.reportWrite(value, super.cartPlates, () {
       super.cartPlates = value;
     });
@@ -35,7 +35,7 @@ mixin _$CartController on _CartControllerBase, Store {
       ActionController(name: '_CartControllerBase');
 
   @override
-  void addToCart(String newPlate) {
+  void addToCart(Plate newPlate) {
     final _$actionInfo = _$_CartControllerBaseActionController.startAction(
         name: '_CartControllerBase.addToCart');
     try {
