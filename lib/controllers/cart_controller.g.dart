@@ -15,6 +15,13 @@ mixin _$CartController on _CartControllerBase, Store {
   int get total => (_$totalComputed ??=
           Computed<int>(() => super.total, name: '_CartControllerBase.total'))
       .value;
+  Computed<double> _$totalPriceComputed;
+
+  @override
+  double get totalPrice =>
+      (_$totalPriceComputed ??= Computed<double>(() => super.totalPrice,
+              name: '_CartControllerBase.totalPrice'))
+          .value;
 
   final _$cartPlatesAtom = Atom(name: '_CartControllerBase.cartPlates');
 
@@ -60,7 +67,8 @@ mixin _$CartController on _CartControllerBase, Store {
   String toString() {
     return '''
 cartPlates: ${cartPlates},
-total: ${total}
+total: ${total},
+totalPrice: ${totalPrice}
     ''';
   }
 }

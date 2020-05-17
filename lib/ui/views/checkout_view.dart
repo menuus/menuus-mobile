@@ -45,16 +45,27 @@ class CheckoutView extends StatelessWidget {
                       itemCount: cards.total,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 23),
-                          child: buildCreditCard(cards.creditCards[index], context),
-                        );
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 23),
+                            child: buildCreditCard(cards.creditCards[index], context));
                       },
                     );
                   }),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-                  child: Text('Detalhes do pedido', style: Theme.of(context).textTheme.headline6),
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+                    child: Text('Detalhes do pedido', style: Theme.of(context).textTheme.headline6)),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: buildOrderDetails(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+                  child: RaisedButton(
+                    onPressed: () {},
+                    child: Text('Finalizar pedido'),
+                    color: Colors.red,
+                    textColor: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -89,7 +100,7 @@ class CheckoutView extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         title: Text(plate.name, overflow: TextOverflow.ellipsis),
-        subtitle: Text('R\$ ${plate.price}'),
+        subtitle: Text('R\$ ${plate.price.toString()}'),
         trailing: IconButton(icon: const Icon(Icons.delete), onPressed: () => cart.removeFromCart(index)),
       ),
     );
@@ -98,7 +109,7 @@ class CheckoutView extends StatelessWidget {
   Widget buildCreditCard(CreditCard card, BuildContext context) {
     TextStyle caption = Theme.of(context).textTheme.caption;
     TextStyle data = Theme.of(context).textTheme.bodyText1;
-    
+
     return Container(
       width: 320,
       child: Material(
@@ -142,6 +153,32 @@ class CheckoutView extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildOrderDetails() {
+    return Material(
+      elevation: 2,
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Observer(builder: (_) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('pedido 1'),
+              Divider(),
+              Text('pedido 2'),
+              Divider(),
+              Text('pedido 3'),
+              Divider(),
+              Text('Observações'),
+              Divider(),
+              Text('Total: ${cart.totalPrice}'),
+            ],
+          );
+        }),
       ),
     );
   }
