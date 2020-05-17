@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:menuus_mobile/models/establishment_model.dart';
 import 'package:menuus_mobile/models/plate_model.dart';
 
 String _endPoint = 'https://mennus-api.rj.r.appspot.com/api';
@@ -15,14 +16,25 @@ Future getFoodCourts() async {
   }
 }
 
-Future getEstablishments() async {
+Future<List<Establishment>> getEstablishments() async {
   var response = await http.get('$_endPoint/establishments?include=plates');
   if (response.statusCode == 200) {
-    var jsonResponse = convert.jsonDecode(response.body);
-    // print('getEstablishments http: ${jsonResponse['data']}.');
-    return jsonResponse['data'];
+    var establishmentsData = establishmentDataListFromJson(response.body);
+    return establishmentsData.data;
   } else {
     print('Request failed with status: ${response.statusCode}.');
+    return null;
+  }
+}
+
+Future<Establishment> getEstablishmentDetails(int id) async {
+  var response = await http.get('$_endPoint/establishments/$id?include=plates');
+  if (response.statusCode == 200) {
+    var establishmentData = establishmentDataFromJson(response.body);
+    return establishmentData.data;
+  } else {
+    print('Request failed with status: ${response.statusCode}.');
+    return null;
   }
 }
 

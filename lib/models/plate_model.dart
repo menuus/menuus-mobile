@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'establishment_model.dart';
+
 PlateData plateDataFromJson(String str) => PlateData.fromJson(json.decode(str));
 String plateDataToJson(PlateData data) => json.encode(data.toJson());
 
@@ -108,54 +110,6 @@ class Plate {
         "establishment": establishment == null ? null : establishment.toJson(),
         "plate_category": plateCategory == null ? null : plateCategory.toJson(),
         "menu_type": menuType == null ? null : menuType.toJson(),
-      };
-}
-
-class Establishment {
-  int id;
-  int foodCourtId;
-  int establishmentCategoryId;
-  String name;
-  String slug;
-  String description;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String color;
-
-  Establishment({
-    this.id,
-    this.foodCourtId,
-    this.establishmentCategoryId,
-    this.name,
-    this.slug,
-    this.description,
-    this.createdAt,
-    this.updatedAt,
-    this.color,
-  });
-
-  factory Establishment.fromJson(Map<String, dynamic> json) => Establishment(
-        id: json["id"] == null ? null : json["id"],
-        foodCourtId: json["food_court_id"] == null ? null : json["food_court_id"],
-        establishmentCategoryId: json["establishment_category_id"] == null ? null : json["establishment_category_id"],
-        name: json["name"] == null ? null : json["name"],
-        slug: json["slug"] == null ? null : json["slug"],
-        description: json["description"] == null ? null : json["description"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        color: json["color"] == null ? null : json["color"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "food_court_id": foodCourtId == null ? null : foodCourtId,
-        "establishment_category_id": establishmentCategoryId == null ? null : establishmentCategoryId,
-        "name": name == null ? null : name,
-        "slug": slug == null ? null : slug,
-        "description": description == null ? null : description,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "color": color == null ? null : color,
       };
 }
 
