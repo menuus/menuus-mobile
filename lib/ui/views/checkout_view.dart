@@ -3,14 +3,17 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/controllers/credit_card_controller.dart';
+import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:menuus_mobile/models/credit_card_model.dart';
 import 'package:menuus_mobile/models/plate_model.dart';
+import 'package:menuus_mobile/services/http_service.dart';
 
 class CheckoutView extends StatelessWidget {
   CheckoutView({Key key}) : super(key: key);
 
   final cart = GetIt.I.get<CartController>();
   final cards = GetIt.I.get<CreditCardController>();
+  final user = GetIt.I.get<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +64,12 @@ class CheckoutView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
                   child: RaisedButton(
-                    onPressed: () {},
                     child: Text('Finalizar pedido'),
                     color: Colors.red,
                     textColor: Colors.white,
+                    onPressed: () {
+                      postOrder();
+                    },
                   ),
                 ),
               ],

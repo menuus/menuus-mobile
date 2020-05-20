@@ -19,10 +19,12 @@ class _MenuListingState extends State<MenuListing> {
   List<Widget> _tabRoutingList = [
     RestaurantListView(),
     PlatesListView(),
+    // RestaurantListView(),
   ];
   List<BottomMenuBarItem> _tabItemsList = [
     BottomMenuBarItem(iconData: Icons.restaurant, text: 'Restaurantes'),
     BottomMenuBarItem(iconData: Icons.restaurant_menu, text: 'Pratos'),
+    // BottomMenuBarItem(iconData: Icons.restaurant, text: 'Restaurantes'),
   ];
 
   final cart = GetIt.I.get<CartController>();
