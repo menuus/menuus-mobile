@@ -16,7 +16,7 @@ class PlateDetailsView extends StatefulWidget {
 
 class _PlateDetailsViewState extends State<PlateDetailsView> {
   Plate plate;
-  Future plate$;
+  Future<Plate> plate$;
 
   final cart = GetIt.I.get<CartController>();
 
@@ -55,15 +55,15 @@ class _PlateDetailsViewState extends State<PlateDetailsView> {
             return Center(
               child: Column(
                 children: <Widget>[
-                  Text('id: ${plate.id}'),
-                  Text('establishment_id: ${plate.establishmentId}'),
-                  Text('plate_category_id: ${plate.plateCategoryId}'),
-                  Text('name: ${plate.name}'),
-                  Text('description: ${plate.description}'),
-                  Text('price: ${plate.price}'),
-                  Text('created_at: ${plate.createdAt}'),
-                  Text('updated_at: ${plate.updatedAt}'),
-                  Text('images: ${plate.images.length}'),
+                  Text('id: ${snapshot.data.id}'),
+                  Text('establishment_id: ${snapshot.data.establishmentId}'),
+                  Text('plate_category_id: ${snapshot.data.plateCategoryId}'),
+                  Text('name: ${snapshot.data.name}'),
+                  Text('description: ${snapshot.data.description}'),
+                  Text('price: ${snapshot.data.price}'),
+                  Text('created_at: ${snapshot.data.createdAt}'),
+                  Text('updated_at: ${snapshot.data.updatedAt}'),
+                  Text('images: ${snapshot.data.images.length}'),
                   SizedBox(height: 50),
                   RaisedButton(
                     child: Text('Adicionar ao carrinho'),

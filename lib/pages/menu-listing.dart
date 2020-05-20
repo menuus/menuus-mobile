@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:menuus_mobile/controllers/cart_controller.dart';
+import 'package:menuus_mobile/controllers/user_controller.dart';
+import 'package:menuus_mobile/ui/views/orders_list_view.dart';
 import 'package:menuus_mobile/ui/views/plates_list_view.dart';
 import 'package:menuus_mobile/ui/views/restaurants_list_view.dart';
 import 'package:menuus_mobile/utils/layout_utils.dart';
@@ -19,13 +21,16 @@ class _MenuListingState extends State<MenuListing> {
   List<Widget> _tabRoutingList = [
     RestaurantListView(),
     PlatesListView(),
+    OrdersListView(),
   ];
   List<BottomMenuBarItem> _tabItemsList = [
     BottomMenuBarItem(iconData: Icons.restaurant, text: 'Restaurantes'),
     BottomMenuBarItem(iconData: Icons.restaurant_menu, text: 'Pratos'),
+    BottomMenuBarItem(iconData: Icons.person, text: 'Pedidos'),
   ];
 
   final cart = GetIt.I.get<CartController>();
+  final user = GetIt.I.get<UserController>();
 
   void _onFloatingCategorySelection(int index) {
     setState(() {
@@ -36,6 +41,7 @@ class _MenuListingState extends State<MenuListing> {
   void _onTabSelection(int index) {
     setState(() {
       _selectedTabIndex = index;
+      _appBarTitle = index == 2 ? user.userData.user.name : 'Todas as categorias';
     });
   }
 
@@ -58,12 +64,13 @@ class _MenuListingState extends State<MenuListing> {
           ),
         ],
       ),
+      backgroundColor: Colors.grey[200],
       body: _tabRoutingList[_selectedTabIndex],
       extendBody: true,
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // floatingActionButton: _buildFab(context),
       bottomNavigationBar: BottomMenuBar(
-        centerItemText: 'Cardápios',
+        // centerItemText: 'Cardápios',
         color: Colors.grey,
         selectedColor: Colors.red,
         notchedShape: CircularNotchedRectangle(),
