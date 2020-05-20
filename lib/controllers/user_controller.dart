@@ -12,8 +12,14 @@ abstract class _UserControllerBase with Store {
   @observable
   User user;
 
+  @observable
+  String formEmail = 'gabrielkotecki@gmail.com';
+
+  @observable
+  String formPassword = '123123123';
+
   @action
-  getInfoMundo(String email, String password) async {
-    userData = await postLogin(email, password);
+  onLogin() async {
+    userData = await postLogin(formEmail, formPassword);
   }
 }

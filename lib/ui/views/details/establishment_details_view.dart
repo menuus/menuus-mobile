@@ -57,6 +57,12 @@ class EstablishmentDetailsView extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             child: ListTile(
               dense: true,
+              leading: Image(
+                image: NetworkImage(plate.images != null ? plate.images[0].path : ''),
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
               title: Text(plate.name, overflow: TextOverflow.ellipsis),
               subtitle: Text(plate.description),
               trailing: Text('R\$ ${plate.price}'),

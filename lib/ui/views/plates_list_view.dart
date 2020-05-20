@@ -81,6 +81,11 @@ class _PlatesListViewState extends State<PlatesListView> {
 
   List<Widget> buildGridItems(List<Plate> plates) {
     List<Widget> list = [];
+    var textStyle = TextStyle(
+      shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+      color: Colors.white,
+      fontWeight: FontWeight.w700,
+    );
     for (Plate plate in plates) {
       list.add(
         InkWell(
@@ -89,17 +94,13 @@ class _PlatesListViewState extends State<PlatesListView> {
             width: _gridItemWidth,
             decoration: BoxDecoration(
               color: Colors.grey[300],
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage('https://picsum.photos/200/300?random=${plate.id}'),
-              ),
+              image: DecorationImage(fit: BoxFit.cover, image: NetworkImage(plate.images[0].path)),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(plate.name),
-                Text('R\$ ${plate.price}'),
-                Text(plate.images != null && plate.images.length > 0 ? plate.images[0].path : 'NO-URL'),
+                Text(plate.name, style: textStyle),
+                Text('R\$ ${plate.price}', style: textStyle),
               ],
             ),
           ),

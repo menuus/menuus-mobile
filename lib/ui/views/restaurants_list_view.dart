@@ -67,8 +67,7 @@ class _RestaurantListViewState extends State<RestaurantListView> {
         type: MaterialType.card,
         child: InkWell(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EstablishmentDetailsView(establishment)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EstablishmentDetailsView(establishment)));
           },
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -76,12 +75,22 @@ class _RestaurantListViewState extends State<RestaurantListView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text('id: ${establishment.id}'),
-                  Text('food_court_id: ${establishment.foodCourtId.toString()}'),
-                  Text('establishment_category_id: ${establishment.establishmentCategoryId.toString()}'),
-                  Text('name: ${establishment.name}'),
-                  Text('description: ${establishment.description}'),
-                  Text('plates: ${establishment.plates.length}'),
+                  Text(
+                    establishment.name,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  Text(
+                    'categoria ${establishment.establishmentCategoryId.toString()}',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  Text(
+                    '${establishment.description}',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  Text(
+                    'Clique para ver todos os ${establishment.plates.length} pratos disponíveis!',
+                    style: Theme.of(context).textTheme.button,
+                  ),
                 ],
               ),
             ),

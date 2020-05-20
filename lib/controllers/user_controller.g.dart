@@ -39,20 +39,50 @@ mixin _$UserController on _UserControllerBase, Store {
     });
   }
 
-  final _$getInfoMundoAsyncAction =
-      AsyncAction('_UserControllerBase.getInfoMundo');
+  final _$formEmailAtom = Atom(name: '_UserControllerBase.formEmail');
 
   @override
-  Future getInfoMundo(String email, String password) {
-    return _$getInfoMundoAsyncAction
-        .run(() => super.getInfoMundo(email, password));
+  String get formEmail {
+    _$formEmailAtom.reportRead();
+    return super.formEmail;
+  }
+
+  @override
+  set formEmail(String value) {
+    _$formEmailAtom.reportWrite(value, super.formEmail, () {
+      super.formEmail = value;
+    });
+  }
+
+  final _$formPasswordAtom = Atom(name: '_UserControllerBase.formPassword');
+
+  @override
+  String get formPassword {
+    _$formPasswordAtom.reportRead();
+    return super.formPassword;
+  }
+
+  @override
+  set formPassword(String value) {
+    _$formPasswordAtom.reportWrite(value, super.formPassword, () {
+      super.formPassword = value;
+    });
+  }
+
+  final _$onLoginAsyncAction = AsyncAction('_UserControllerBase.onLogin');
+
+  @override
+  Future onLogin() {
+    return _$onLoginAsyncAction.run(() => super.onLogin());
   }
 
   @override
   String toString() {
     return '''
 userData: ${userData},
-user: ${user}
+user: ${user},
+formEmail: ${formEmail},
+formPassword: ${formPassword}
     ''';
   }
 }
