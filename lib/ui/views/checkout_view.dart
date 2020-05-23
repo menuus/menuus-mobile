@@ -99,7 +99,7 @@ class CheckoutView extends StatelessWidget {
       borderRadius: BorderRadius.circular(4),
       child: ListTile(
         leading: Image(
-          image: NetworkImage(plate.images[0].path),
+          image: NetworkImage(plate.images != null ? plate.images[0].path : ''),
           width: 50,
           height: 50,
           fit: BoxFit.cover,

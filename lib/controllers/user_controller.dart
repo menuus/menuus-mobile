@@ -18,8 +18,13 @@ abstract class _UserControllerBase with Store {
   @observable
   String formPassword = '123123123';
 
+  @observable
+  ObservableFuture<UserData> onLoginFuture = ObservableFuture.value(null);
+
   @action
   onLogin() async {
-    userData = await postLogin(formEmail, formPassword);
+    final future = postLogin(formEmail, formPassword);
+    onLoginFuture = ObservableFuture(future);
+    userData = await future;
   }
 }

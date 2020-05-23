@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
+import 'package:mobx/mobx.dart';
 
 class LoginView extends StatelessWidget {
   final user = GetIt.I.get<UserController>();
@@ -16,23 +17,31 @@ class LoginView extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: 60),
               Observer(
-                builder: (_) => TextField(                  
+                builder: (_) => TextFormField(
+                  initialValue: 'gabrielkotecki@gmail.com',
                   onChanged: (value) => user.formEmail = value,
-                  decoration: InputDecoration(labelText: 'Email', hintText: 'Informe seu email',),
+                  decoration: InputDecoration(labelText: 'Email', hintText: 'Informe seu email'),
                 ),
               ),
               Observer(
-                builder: (_) => TextField(
+                builder: (_) => TextFormField(
+                  initialValue: '123123123',
                   onChanged: (value) => user.formPassword = value,
                   decoration: InputDecoration(labelText: 'Password', hintText: 'Informe sua senha'),
                 ),
               ),
               SizedBox(height: 60),
-              RaisedButton(
-                child: Text('Login'),
-                onPressed: () {
-                  user.onLogin();
-                  Navigator.pushReplacementNamed(context, '/menu-listing');
+              Observer(
+                builder: (_) {
+                  if (user.onLoginFuture.status == FutureStatus.pending) {
+                    return CircularProgressIndicator();
+                  }
+                  return RaisedButton(
+                    child: Text('Login'),
+                    onPressed: () {
+                      handleLogin(context);
+                    },
+                  );
                 },
               ),
             ],
@@ -40,5 +49,13 @@ class LoginView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  handleLogin(context) async {
+    FocusScope.of(context).unfocus();
+    await user.onLogin();
+    if (user.userData != null) {
+      Navigator.pushReplacementNamed(context, '/menu-listing');
+    }
   }
 }
