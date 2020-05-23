@@ -69,6 +69,21 @@ mixin _$UserController on _UserControllerBase, Store {
     });
   }
 
+  final _$onLoginFutureAtom = Atom(name: '_UserControllerBase.onLoginFuture');
+
+  @override
+  ObservableFuture<UserData> get onLoginFuture {
+    _$onLoginFutureAtom.reportRead();
+    return super.onLoginFuture;
+  }
+
+  @override
+  set onLoginFuture(ObservableFuture<UserData> value) {
+    _$onLoginFutureAtom.reportWrite(value, super.onLoginFuture, () {
+      super.onLoginFuture = value;
+    });
+  }
+
   final _$onLoginAsyncAction = AsyncAction('_UserControllerBase.onLogin');
 
   @override
@@ -82,7 +97,8 @@ mixin _$UserController on _UserControllerBase, Store {
 userData: ${userData},
 user: ${user},
 formEmail: ${formEmail},
-formPassword: ${formPassword}
+formPassword: ${formPassword},
+onLoginFuture: ${onLoginFuture}
     ''';
   }
 }
