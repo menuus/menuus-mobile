@@ -5,6 +5,7 @@ import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/controllers/credit_card_controller.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:menuus_mobile/models/credit_card_model.dart';
+import 'package:menuus_mobile/models/orders_model.dart';
 import 'package:menuus_mobile/models/plate_model.dart';
 import 'package:menuus_mobile/services/http_service.dart';
 
@@ -68,7 +69,7 @@ class CheckoutView extends StatelessWidget {
                     color: Colors.red,
                     textColor: Colors.white,
                     onPressed: () {
-                      postOrder();
+                      onOrder();
                     },
                   ),
                 ),
@@ -78,6 +79,24 @@ class CheckoutView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onOrder() {
+    List<Order> orders = [];
+    for (Plate plate in cart.cartPlates) {
+      var id = plate.establishmentId;
+      var order;
+      try {
+        order = orders.firstWhere((element) => element.establishmentId == id);
+      } catch (e) {
+        order = new Order(establishmentId: id, plates: []);
+        orders.add(order);
+      }
+      order.plates.add(plate);
+    }
+    for (var order in orders) {
+      postOrder(order.establishmentId, order.plates);
+    }
   }
 
   List<Widget> itemsList() {

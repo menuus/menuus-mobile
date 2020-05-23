@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginView extends StatelessWidget {
   final user = GetIt.I.get<UserController>();
+  final style = TextStyle(
+    color: Colors.red,
+    fontSize: 60,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +20,11 @@ class LoginView extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Column(
             children: <Widget>[
+              SizedBox(height: 60),
+              Text(
+                'Menuus',
+                style: GoogleFonts.pacifico(textStyle: style),
+              ),
               SizedBox(height: 60),
               Observer(
                 builder: (_) => TextFormField(

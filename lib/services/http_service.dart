@@ -87,19 +87,15 @@ Future<UserData> postLogin(String email, String password) async {
   }
 }
 
-void postOrder() async {
+void postOrder(int establishment, List<Plate> plates) async {
   final user = GetIt.I.get<UserController>();
 
   Map jsonData = {
-    "plates": [
-      {"plate_id": 1, "amount": 2},
-      {"plate_id": 2, "amount": 1},
-      {"plate_id": 3, "amount": 5}
-    ]
+    'plates': plates.map((e) => {"plate_id": e.id, "amount": 1}).toList()
   };
 
   final response = await http.post(
-    '$_endPoint/orders?establishment_id=1',
+    '$_endPoint/orders?establishment_id=$establishment',
     headers: {
       HttpHeaders.authorizationHeader: 'Bearer ${user.userData.accessToken}',
       HttpHeaders.contentTypeHeader: 'application/json',
@@ -118,7 +114,7 @@ Future<List<Order>> getOrders() async {
   final user = GetIt.I.get<UserController>();
 
   var response = await http.get(
-    '$_endPoint/orders?include=plates',
+    '$_endPoint/orders?include=plates&sort=-created_at',
     headers: {HttpHeaders.authorizationHeader: 'Bearer ${user.userData.accessToken}'},
   );
   if (response.statusCode == 200) {
