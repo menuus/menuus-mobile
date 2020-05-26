@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:menuus_mobile/controllers/category_controller.dart';
 import 'package:menuus_mobile/models/plate_model.dart';
 import 'package:menuus_mobile/services/http_service.dart';
 import 'package:menuus_mobile/ui/views/details/plate_details_view.dart';
@@ -9,6 +12,7 @@ class PlatesListView extends StatefulWidget {
 }
 
 class _PlatesListViewState extends State<PlatesListView> {
+  final catController = GetIt.I.get<CategoryController>();
   double _gridItemWidth;
   Future plateCategories$;
   Future<List<Plate>> plates$;
@@ -58,19 +62,26 @@ class _PlatesListViewState extends State<PlatesListView> {
     return Expanded(
       child: FutureBuilder(
         future: plates$,
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Plate>> snapshot) {
           if (snapshot.data != null) {
-            return ListView(
-              children: <Widget>[
-                Center(
-                  child: Wrap(
-                    runSpacing: 2,
-                    spacing: 2,
-                    children: buildGridItems(snapshot.data),
+            return Observer(builder: (_) {
+              List<Plate> filtered = [];
+              filtered.addAll(snapshot.data);
+              if (catController.selectedCategories.length > 0) {
+                filtered.removeWhere((plate) => !catController.selectedCategories.contains(plate.plateCategoryId));
+              }
+              return ListView(
+                children: <Widget>[
+                  Center(
+                    child: Wrap(
+                      runSpacing: 2,
+                      spacing: 2,
+                      children: buildGridItems(filtered),
+                    ),
                   ),
-                ),
-              ],
-            );
+                ],
+              );
+            });
           } else {
             return Center(child: CircularProgressIndicator());
           }
@@ -128,6 +139,7 @@ class CategoryFilterCard extends StatefulWidget {
 }
 
 class _CategoryFilterCardState extends State<CategoryFilterCard> {
+  final catController = GetIt.I.get<CategoryController>();
   var category;
 
   _CategoryFilterCardState(this.category);
@@ -141,21 +153,31 @@ class _CategoryFilterCardState extends State<CategoryFilterCard> {
           border: Border.all(width: 1.00, color: Color(0xffcccccc)),
           borderRadius: BorderRadius.circular(3),
         ),
-        child: Material(
-          color: Colors.white,
-          type: MaterialType.button,
-          elevation: 1,
-          child: InkWell(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-              child: Text(
-                category['name'],
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Color(0xff707070)),
+        child: Observer(builder: (_) {
+          var _isSelected = catController.selectedCategories.contains(category['id']);
+          return Material(
+            color: _isSelected ? Colors.red : Colors.white,
+            type: MaterialType.button,
+            elevation: 1,
+            child: InkWell(
+              splashColor: Colors.red[50],
+              onTap: () {
+                catController.toggleCategory(category['id']);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                child: Text(
+                  category['name'],
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                    color: _isSelected ? Colors.white : Colors.grey[700],
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

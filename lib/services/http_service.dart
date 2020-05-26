@@ -43,8 +43,9 @@ Future<Establishment> getEstablishmentDetails(int id) async {
   }
 }
 
-Future<List<Plate>> getPlates() async {
-  var response = await http.get('$_endPoint/plates?include=images');
+Future<List<Plate>> getPlates({ int establishmentId }) async {
+  var filter = establishmentId != null ? '&filter[establishment_id]=$establishmentId' : '';
+  var response = await http.get('$_endPoint/plates?include=images&sort=price$filter');
   if (response.statusCode == 200) {
     var plateData = plateDataListFromJson(response.body);
     return plateData.data;
@@ -66,11 +67,12 @@ Future<Plate> getPlateDetails(int id) async {
 }
 
 Future getPlateCategories() async {
-  var response = await http.get('$_endPoint/plate_categories');
+  var response = await http.get('$_endPoint/plate_categories?include=plates&limit=99&sort=name');
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
-    // print('getPlateCategories http: ${jsonResponse['data']}.');
-    return jsonResponse['data'];
+    var categories = jsonResponse['data'] as List<dynamic>;
+    categories.removeWhere((item) => item['plates'].length < 1);
+    return categories;
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }

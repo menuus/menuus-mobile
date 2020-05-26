@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:menuus_mobile/controllers/cart_controller.dart';
+import 'package:menuus_mobile/controllers/category_controller.dart';
 import 'package:menuus_mobile/controllers/credit_card_controller.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:menuus_mobile/pages/menu-listing.dart';
@@ -12,6 +13,7 @@ void main() {
   getIt.registerSingleton<CartController>(CartController());
   getIt.registerSingleton<CreditCardController>(CreditCardController());
   getIt.registerSingleton<UserController>(UserController());
+  getIt.registerSingleton<CategoryController>(CategoryController());
   
   runApp(MyApp());
 }
