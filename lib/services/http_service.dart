@@ -14,7 +14,6 @@ Future getFoodCourts() async {
   var response = await http.get('$_endPoint/food_courts');
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
-    // print('getFoodCourts http: ${jsonResponse['data']}.');
     return jsonResponse['data'];
   } else {
     print('Request failed with status: ${response.statusCode}.');
@@ -22,7 +21,7 @@ Future getFoodCourts() async {
 }
 
 Future<List<Establishment>> getEstablishments() async {
-  var response = await http.get('$_endPoint/establishments?include=plates');
+  var response = await http.get('$_endPoint/establishments?include=platesCount,images,logo');
   if (response.statusCode == 200) {
     var establishmentsData = establishmentDataListFromJson(response.body);
     return establishmentsData.data;
@@ -33,7 +32,7 @@ Future<List<Establishment>> getEstablishments() async {
 }
 
 Future<Establishment> getEstablishmentDetails(int id) async {
-  var response = await http.get('$_endPoint/establishments/$id?include=plates');
+  var response = await http.get('$_endPoint/establishments/$id?include=plates,logo');
   if (response.statusCode == 200) {
     var establishmentData = establishmentDataFromJson(response.body);
     return establishmentData.data;

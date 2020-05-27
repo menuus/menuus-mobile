@@ -32,47 +32,59 @@ class Establishment {
     int id;
     int foodCourtId;
     int establishmentCategoryId;
+    int logoImageId;
     String name;
     String slug;
     String description;
     DateTime createdAt;
     DateTime updatedAt;
-    List<Plate> plates;
+    int platesCount;
+    List<Logo> images;
+    Logo logo;
 
     Establishment({
         this.id,
         this.foodCourtId,
         this.establishmentCategoryId,
+        this.logoImageId,
         this.name,
         this.slug,
         this.description,
         this.createdAt,
         this.updatedAt,
-        this.plates,
+        this.platesCount,
+        this.images,
+        this.logo,
     });
 
     factory Establishment.fromJson(Map<String, dynamic> json) => Establishment(
         id: json["id"] == null ? null : json["id"],
         foodCourtId: json["food_court_id"] == null ? null : json["food_court_id"],
         establishmentCategoryId: json["establishment_category_id"] == null ? null : json["establishment_category_id"],
+        logoImageId: json["logo_image_id"] == null ? null : json["logo_image_id"],
         name: json["name"] == null ? null : json["name"],
         slug: json["slug"] == null ? null : json["slug"],
         description: json["description"] == null ? null : json["description"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        plates: json["plates"] == null ? null : List<Plate>.from(json["plates"].map((x) => Plate.fromJson(x))),
+        platesCount: json["plates_count"] == null ? null : json["plates_count"],
+        images: json["images"] == null ? null : List<Logo>.from(json["images"].map((x) => Logo.fromJson(x))),
+        logo: json["logo"] == null ? null : Logo.fromJson(json["logo"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "food_court_id": foodCourtId == null ? null : foodCourtId,
         "establishment_category_id": establishmentCategoryId == null ? null : establishmentCategoryId,
+        "logo_image_id": logoImageId == null ? null : logoImageId,
         "name": name == null ? null : name,
         "slug": slug == null ? null : slug,
         "description": description == null ? null : description,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "plates": plates == null ? null : List<dynamic>.from(plates.map((x) => x.toJson())),
+        "plates_count": platesCount == null ? null : platesCount,
+        "images": images == null ? null : List<dynamic>.from(images.map((x) => x.toJson())),
+        "logo": logo == null ? null : logo.toJson(),
     };
 }
 
@@ -121,5 +133,41 @@ class Links {
         "last": last == null ? null : last,
         "prev": prev,
         "next": next,
+    };
+}
+
+class Logo {
+    int id;
+    String name;
+    dynamic description;
+    String path;
+    DateTime createdAt;
+    DateTime updatedAt;
+
+    Logo({
+        this.id,
+        this.name,
+        this.description,
+        this.path,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory Logo.fromJson(Map<String, dynamic> json) => Logo(
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        description: json["description"],
+        path: json["path"] == null ? null : json["path"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "name": name == null ? null : name,
+        "description": description,
+        "path": path == null ? null : path,
+        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
     };
 }

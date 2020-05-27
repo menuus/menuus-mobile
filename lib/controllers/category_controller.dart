@@ -15,6 +15,5 @@ abstract class _CategoryControllerBase with Store {
     } else {
       selectedCategories.add(id);      
     }
-    print(selectedCategories);
   }
 }

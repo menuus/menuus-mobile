@@ -23,14 +23,10 @@ abstract class _CartControllerBase with Store {
   @action 
   void addToCart(Plate newPlate) {
     cartPlates.add(newPlate);
-    print(cartPlates.map((element) => element.name));
-    print(total);
   }
 
   @action 
   void removeFromCart(int index) {
     cartPlates.removeAt(index);
-    print(cartPlates.map((element) => element.name));
-    print(total);
   }
 }

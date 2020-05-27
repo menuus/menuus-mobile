@@ -17,14 +17,10 @@ abstract class _CreditCardControllerBase with Store {
   @action
   void addToCart(CreditCard newCard) {
     creditCards.add(newCard);
-    print(creditCards);
-    print(total);
   }
 
   @action
   void removeFromCart(int index) {
     creditCards.removeAt(index);
-    print(creditCards);
-    print(total);
   }
 }

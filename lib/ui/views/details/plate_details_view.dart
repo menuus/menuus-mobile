@@ -48,37 +48,80 @@ class _PlateDetailsViewState extends State<PlateDetailsView> {
         ],
       ),
       floatingActionButton: null,
+      backgroundColor: Colors.grey[200],
       body: FutureBuilder(
         future: plate$,
         builder: (context, snapshot) {
           if (snapshot.data != null) {
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Text('id: ${snapshot.data.id}'),
-                  Text('establishment_id: ${snapshot.data.establishmentId}'),
-                  Text('plate_category_id: ${snapshot.data.plateCategoryId}'),
-                  Text('name: ${snapshot.data.name}'),
-                  Text('description: ${snapshot.data.description}'),
-                  Text('price: ${snapshot.data.price}'),
-                  Text('created_at: ${snapshot.data.createdAt}'),
-                  Text('updated_at: ${snapshot.data.updatedAt}'),
-                  Text('images: ${snapshot.data.images.length}'),
-                  SizedBox(height: 50),
-                  RaisedButton(
-                    child: Text('Adicionar ao carrinho'),
-                    onPressed: () {
-                      cart.addToCart(plate);
-                    },
-                  ),
-                ],
-              ),
+            Plate plate = snapshot.data;
+            return ListView(
+              padding: EdgeInsets.all(8),
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(plate.establishment.name, style: Theme.of(context).textTheme.caption),
+                        Text(plate.name, style: Theme.of(context).textTheme.headline5),
+                        SizedBox(height: 10),
+                        Text('R\$ ${plate.price}', style: Theme.of(context).textTheme.bodyText2),
+                      ],
+                    ),
+                    Hero(
+                      tag: plate.slug,
+                      child: Image(
+                        image: NetworkImage(plate.images[0].path),
+                        width: 120,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 25),
+                Text('Categorias: ${plate.plateCategory.name}', style: Theme.of(context).textTheme.caption),
+                SizedBox(height: 5),
+                Text('Descrição: ${plate.description}', style: Theme.of(context).textTheme.caption),
+                SizedBox(height: 20),
+                RaisedButton(
+                  child: Text('Adicionar ao carrinho'),
+                  color: Colors.red,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    cart.addToCart(plate);
+                  },
+                ),
+                SizedBox(height: 20),
+                Text('Imagens:', style: Theme.of(context).textTheme.caption),
+                buildImageList(plate.images),
+              ],
             );
           } else {
             return Center(child: CircularProgressIndicator());
           }
         },
       ),
+    );
+  }
+
+  Widget buildImageList(List<PlateImage> images) {
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: images.length,
+      itemBuilder: (BuildContext context, int index) {
+        PlateImage image = images[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Image(
+            image: NetworkImage(image.path),
+            width: 50,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
     );
   }
 }

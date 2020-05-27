@@ -110,7 +110,7 @@ class _PlatesListViewState extends State<PlatesListView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(plate.name, style: textStyle),
+                Text(plate.name, style: textStyle, overflow: TextOverflow.ellipsis),
                 Text('R\$ ${plate.price}', style: textStyle),
               ],
             ),
