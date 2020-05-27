@@ -87,6 +87,21 @@ Future<UserData> postLogin(String email, String password) async {
   }
 }
 
+Future<UserData> postNotificationToken(String token) async {
+  final user = GetIt.I.get<UserController>();
+  //TODO: save token in prefs and do not send if is the same
+
+  final response = await http.post(
+    '$_endPoint/push_token?token=$token',
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Bearer ${user.userData.accessToken}',
+    },
+  );
+
+  print(response.body);
+}
+
 void postOrder() async {
   final user = GetIt.I.get<UserController>();
 

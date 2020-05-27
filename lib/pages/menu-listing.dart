@@ -3,11 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
+import 'package:menuus_mobile/services/notification_service.dart';
 import 'package:menuus_mobile/ui/views/orders_list_view.dart';
 import 'package:menuus_mobile/ui/views/plates_list_view.dart';
 import 'package:menuus_mobile/ui/views/restaurants_list_view.dart';
 import 'package:menuus_mobile/utils/layout_utils.dart';
 import 'package:menuus_mobile/widgets/bottom_menu_bar.dart';
+import 'package:menuus_mobile/widgets/call_alert.dart';
 import 'package:menuus_mobile/widgets/floating_dial_button.dart';
 
 class MenuListing extends StatefulWidget {
@@ -43,6 +45,18 @@ class _MenuListingState extends State<MenuListing> {
       _selectedTabIndex = index;
       _appBarTitle = index == 2 ? user.userData.user.name : 'Todas as categorias';
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationService.setCallback((message) {
+      CallAlert.show(context);
+    });
+    BackgroundMessage.callback = (message) {
+      //FIXME: not working
+      CallAlert.show(context);
+    };
   }
 
   @override
