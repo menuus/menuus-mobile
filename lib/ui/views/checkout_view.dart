@@ -29,6 +29,7 @@ class CheckoutView extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: ListView(
+              physics: BouncingScrollPhysics(),
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -60,7 +61,7 @@ class CheckoutView extends StatelessWidget {
                     child: Text('Detalhes do pedido', style: Theme.of(context).textTheme.headline6)),
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: buildOrderDetails(),
+                  child: buildOrderDetails(context),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
@@ -117,11 +118,14 @@ class CheckoutView extends StatelessWidget {
       elevation: 3,
       borderRadius: BorderRadius.circular(4),
       child: ListTile(
-        leading: Image(
-          image: NetworkImage(plate.images != null ? plate.images[0].path : ''),
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
+        leading: Hero(
+          tag: plate.slug,
+          child: Image(
+            image: NetworkImage(plate.images != null ? plate.images[0].path : ''),
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          ),
         ),
         title: Text(plate.name, overflow: TextOverflow.ellipsis),
         subtitle: Text('R\$ ${plate.price.toString()}'),
@@ -181,7 +185,8 @@ class CheckoutView extends StatelessWidget {
     );
   }
 
-  Widget buildOrderDetails() {
+  Widget buildOrderDetails(context) {
+    var thick = Theme.of(context).textTheme.button;
     return Material(
       elevation: 2,
       borderRadius: BorderRadius.circular(4),
@@ -191,15 +196,32 @@ class CheckoutView extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('pedido 1'),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: cart.total,
+                itemBuilder: (BuildContext context, int index) {
+                  Plate orderedPlate = cart.cartPlates[index];
+                  return Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[Text(orderedPlate.name), Text('R\$ ${orderedPlate.price}')],
+                      ),
+                      Divider(),
+                    ],
+                  );
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[Text('Observações'), Text('...')],
+              ),
               Divider(),
-              Text('pedido 2'),
-              Divider(),
-              Text('pedido 3'),
-              Divider(),
-              Text('Observações'),
-              Divider(),
-              Text('Total: ${cart.totalPrice}'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[Text('Total', style: thick), Text('R\$ ${cart.totalPrice}', style: thick)],
+              ),
             ],
           );
         }),

@@ -15,11 +15,11 @@ mixin _$CartController on _CartControllerBase, Store {
   int get total => (_$totalComputed ??=
           Computed<int>(() => super.total, name: '_CartControllerBase.total'))
       .value;
-  Computed<double> _$totalPriceComputed;
+  Computed<String> _$totalPriceComputed;
 
   @override
-  double get totalPrice =>
-      (_$totalPriceComputed ??= Computed<double>(() => super.totalPrice,
+  String get totalPrice =>
+      (_$totalPriceComputed ??= Computed<String>(() => super.totalPrice,
               name: '_CartControllerBase.totalPrice'))
           .value;
 
