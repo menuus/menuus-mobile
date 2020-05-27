@@ -14,14 +14,18 @@ abstract class _UserControllerBase with Store {
   User user;
 
   @observable
-  String formEmail = 'gabrielkotecki@gmail.com';
+  String formEmail = 'gabrielkotecki@gmail.com'; //TODO: mock
 
   @observable
-  String formPassword = '123123123';
+  String formPassword = '123123123'; //TODO: mock
+
+  @observable
+  ObservableFuture<UserData> onLoginFuture = ObservableFuture.value(null);
 
   @action
   onLogin() async {
-    userData = await postLogin(formEmail, formPassword);
-    NotificationService.start();
+    final future = postLogin(formEmail, formPassword);
+    onLoginFuture = ObservableFuture(future);
+    userData = await future;
   }
 }

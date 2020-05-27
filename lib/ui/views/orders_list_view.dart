@@ -26,7 +26,7 @@ class _OrdersListViewState extends State<OrdersListView> {
               ? ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return _buildOrdersList(snapshot.data[index]);
+                    return _buildOrderItem(snapshot.data[index]);
                   },
                 )
               : CircularProgressIndicator();
@@ -35,7 +35,7 @@ class _OrdersListViewState extends State<OrdersListView> {
     );
   }
 
-  Widget _buildOrdersList(Order order) {
+  Widget _buildOrderItem(Order order) {
     List<String> list = [];
     for (var i = 0; i < order.plates.length; i++) {
       list.add(order.plates[i].name);

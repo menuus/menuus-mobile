@@ -12,25 +12,21 @@ abstract class _CartControllerBase with Store {
   int get total => cartPlates.length;
 
   @computed
-  double get totalPrice {
+  String get totalPrice {
     double prices = 0;
     for (var p in cartPlates) {
       prices += num.tryParse(p.price)?.toDouble();
     }
-    return prices;
+    return prices.toStringAsFixed(2);
   }
 
   @action 
   void addToCart(Plate newPlate) {
     cartPlates.add(newPlate);
-    print(cartPlates.map((element) => element.name));
-    print(total);
   }
 
   @action 
   void removeFromCart(int index) {
     cartPlates.removeAt(index);
-    print(cartPlates.map((element) => element.name));
-    print(total);
   }
 }
