@@ -13,6 +13,10 @@ import 'package:menuus_mobile/widgets/call_alert.dart';
 import 'package:menuus_mobile/widgets/floating_dial_button.dart';
 
 class MenuListingView extends StatefulWidget {
+  final int initialTabIndex;
+
+  MenuListingView({Key key, this.initialTabIndex = 0}) : super(key: key);
+
   @override
   _MenuListingViewState createState() => _MenuListingViewState();
 }
@@ -50,6 +54,7 @@ class _MenuListingViewState extends State<MenuListingView> {
   @override
   void initState() {
     super.initState();
+    _onTabSelection(widget.initialTabIndex);
     NotificationService.setCallback((message) {
       Alert.orderFinished(context);
     });

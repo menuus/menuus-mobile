@@ -8,6 +8,9 @@ abstract class _CartControllerBase with Store {
   @observable
   ObservableList<Plate> cartPlates = ObservableList.of([]);  
 
+  @observable
+  bool loading = false;
+
   @computed
   int get total => cartPlates.length;
 
@@ -28,5 +31,10 @@ abstract class _CartControllerBase with Store {
   @action 
   void removeFromCart(int index) {
     cartPlates.removeAt(index);
+  }
+
+  @action 
+  void removeAll() {
+    cartPlates = ObservableList.of([]);
   }
 }

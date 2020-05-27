@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:menuus_mobile/models/plate_model.dart';
 
 OrdersData ordersDataFromJson(String str) => OrdersData.fromJson(json.decode(str));
+
 String ordersDataToJson(OrdersData data) => json.encode(data.toJson());
 
 class OrdersData {
@@ -36,6 +37,7 @@ class Order {
     dynamic obs;
     DateTime createdAt;
     DateTime updatedAt;
+    dynamic finishedAt;
     List<Plate> plates;
 
     Order({
@@ -45,6 +47,7 @@ class Order {
         this.obs,
         this.createdAt,
         this.updatedAt,
+        this.finishedAt,
         this.plates,
     });
 
@@ -55,6 +58,7 @@ class Order {
         obs: json["obs"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        finishedAt: json["finished_at"],
         plates: json["plates"] == null ? null : List<Plate>.from(json["plates"].map((x) => Plate.fromJson(x))),
     );
 
@@ -65,6 +69,7 @@ class Order {
         "obs": obs,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
+        "finished_at": finishedAt,
         "plates": plates == null ? null : List<dynamic>.from(plates.map((x) => x.toJson())),
     };
 }
@@ -95,18 +100,4 @@ class Links {
         "prev": prev,
         "next": next,
     };
-}
-
-class EnumValues<T> {
-    Map<String, T> map;
-    Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-        if (reverseMap == null) {
-            reverseMap = map.map((k, v) => new MapEntry(v, k));
-        }
-        return reverseMap;
-    }
 }

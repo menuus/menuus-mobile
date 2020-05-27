@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +10,8 @@ import 'package:menuus_mobile/models/credit_card_model.dart';
 import 'package:menuus_mobile/models/orders_model.dart';
 import 'package:menuus_mobile/models/plate_model.dart';
 import 'package:menuus_mobile/services/http_service.dart';
+
+import 'menu_listing_view.dart';
 
 class CheckoutView extends StatelessWidget {
   CheckoutView({Key key}) : super(key: key);
@@ -36,7 +40,14 @@ class CheckoutView extends StatelessWidget {
                   child: Text('Itens', style: Theme.of(context).textTheme.headline6),
                 ),
                 Observer(builder: (_) {
-                  return ListBody(children: itemsList());
+                  if (cart.total == 0) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text('Seu carrinho está vazio!'),
+                    );
+                  } else {
+                    return ListBody(children: itemsList());
+                  }
                 }),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
@@ -65,14 +76,20 @@ class CheckoutView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                  child: RaisedButton(
-                    child: Text('Finalizar pedido'),
-                    color: Colors.red,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      onOrder();
-                    },
-                  ),
+                  child: Observer(builder: (_) {
+                    if (cart.loading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return RaisedButton(
+                        child: Text('Finalizar pedido'),
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          onOrder(context);
+                        },
+                      );
+                    }
+                  }),
                 ),
               ],
             ),
@@ -82,7 +99,8 @@ class CheckoutView extends StatelessWidget {
     );
   }
 
-  void onOrder() {
+  void onOrder(context) {
+    cart.loading = true;
     List<Order> orders = [];
     for (Plate plate in cart.cartPlates) {
       var id = plate.establishmentId;
@@ -98,6 +116,11 @@ class CheckoutView extends StatelessWidget {
     for (var order in orders) {
       postOrder(order.establishmentId, order.plates);
     }
+    Timer(Duration(milliseconds: 500), () {
+      cart.loading = false;
+      cart.removeAll();
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MenuListingView(initialTabIndex: 2)));
+    });
   }
 
   List<Widget> itemsList() {

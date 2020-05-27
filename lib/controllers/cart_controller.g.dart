@@ -38,6 +38,21 @@ mixin _$CartController on _CartControllerBase, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_CartControllerBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   final _$_CartControllerBaseActionController =
       ActionController(name: '_CartControllerBase');
 
@@ -67,6 +82,7 @@ mixin _$CartController on _CartControllerBase, Store {
   String toString() {
     return '''
 cartPlates: ${cartPlates},
+loading: ${loading},
 total: ${total},
 totalPrice: ${totalPrice}
     ''';

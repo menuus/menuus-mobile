@@ -2,6 +2,7 @@ import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:menuus_mobile/models/establishment_model.dart';
 import 'package:menuus_mobile/models/orders_model.dart';
@@ -81,6 +82,7 @@ Future<UserData> postLogin(String email, String password) async {
   var response = await http.post('$_endPoint/login?email=$email&password=$password');
   if (response.statusCode == 200) {
     var fetchUser = fetchUserFromJson(response.body);
+    print(fetchUser.data.accessToken);
     return fetchUser.data;
   } else {
     print('Request failed with status: ${response.statusCode}.');
@@ -130,7 +132,7 @@ Future<List<Order>> getOrders() async {
   final user = GetIt.I.get<UserController>();
 
   var response = await http.get(
-    '$_endPoint/orders?include=plates&sort=-created_at',
+    '$_endPoint/orders?include=plates&sort=-updated_at',
     headers: {HttpHeaders.authorizationHeader: 'Bearer ${user.userData.accessToken}'},
   );
   if (response.statusCode == 200) {
