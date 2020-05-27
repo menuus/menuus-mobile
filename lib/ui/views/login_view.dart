@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:menuus_mobile/services/notification_service.dart';
+import 'package:menuus_mobile/widgets/call_alert.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginView extends StatelessWidget {
@@ -69,5 +70,7 @@ class LoginView extends StatelessWidget {
       NotificationService.start();
       Navigator.pushReplacementNamed(context, '/menu-listing');
     }
+    else
+      Alert.error(context, "Não foi possível realizar o login");
   }
 }

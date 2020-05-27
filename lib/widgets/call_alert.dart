@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:rich_alert/rich_alert.dart';
 
-class CallAlert {
-  static void show(context) {
+class Alert {
+  static Map<int, Color> _typeColor = {
+    RichAlertType.ERROR: Colors.red,
+    RichAlertType.SUCCESS: Colors.green,
+    RichAlertType.WARNING: Colors.blue,
+  };
+
+  static void show(
+    BuildContext context,
+    int alertType,
+    String title,
+    String message,
+    String buttonLabel,
+  ) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return RichAlertDialog(
-            alertTitle: richTitle("Pronto!!"),
+            alertTitle: richTitle(title),
             alertSubtitle: Text(
-              "Seu pedido já pode ser retirado no balcão\n😁",
+              message,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey),
             ),
-            alertType: RichAlertType.SUCCESS,
+            alertType: alertType,
             actions: <Widget>[
               Container(
                 alignment: Alignment.center,
                 child: RaisedButton(
                   elevation: 2.0,
-                  color: Colors.green,
+                  color: _typeColor[alertType],
                   child: Text(
-                    "Ok, vou buscar!!!",
+                    buttonLabel,
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
@@ -32,5 +44,19 @@ class CallAlert {
             ],
           );
         });
+  }
+
+  static void orderFinished(BuildContext context) {
+    show(
+      context,
+      RichAlertType.SUCCESS,
+      "Pronto!!",
+      "Seu pedido já pode ser retirado no balcão\n😁",
+      "Ok, vou buscar!!!",
+    );
+  }
+
+  static void error(BuildContext context, String message) {
+    show(context, RichAlertType.ERROR, "Erro", message, "Ok");
   }
 }

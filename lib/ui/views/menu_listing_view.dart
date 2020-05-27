@@ -51,11 +51,11 @@ class _MenuListingViewState extends State<MenuListingView> {
   void initState() {
     super.initState();
     NotificationService.setCallback((message) {
-      CallAlert.show(context);
+      Alert.orderFinished(context);
     });
     BackgroundMessage.callback = (message) {
       //FIXME: not working
-      CallAlert.show(context);
+      Alert.orderFinished(context);
     };
   }
 
