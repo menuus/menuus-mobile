@@ -12,4 +12,4 @@ Acesse a pasta RELEASE para obter os .apk compilados para sua plataforma.
 ## Capturas de tela
 ![Screenshot](RELEASE/lista-restaurantes.png) | ![Screenshot](RELEASE/lista-pratos.png) | ![Screenshot](RELEASE/pedidos-realizados.png)
 :-------------------------:|:-------------------------:|:-------------------------:
-![Screenshot](RELEASE/detalhe-restaurante.png) | ![Screenshot](RELEASE/detalhe-prato.png)
+![Screenshot](RELEASE/detalhe-restaurante.png) | ![Screenshot](RELEASE/detalhe-prato.png) | ![Screenshot](RELEASE/detalhe-carrinho.png)
