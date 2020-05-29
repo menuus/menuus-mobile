@@ -30,14 +30,14 @@ class LoginView extends StatelessWidget {
               SizedBox(height: 60),
               Observer(
                 builder: (_) => TextFormField(
-                  initialValue: 'gabrielkotecki@gmail.com',
+                  initialValue: '',
                   onChanged: (value) => user.formEmail = value,
                   decoration: InputDecoration(labelText: 'Email', hintText: 'Informe seu email'),
                 ),
               ),
               Observer(
                 builder: (_) => TextFormField(
-                  initialValue: '123123123',
+                  initialValue: '',
                   onChanged: (value) => user.formPassword = value,
                   decoration: InputDecoration(labelText: 'Password', hintText: 'Informe sua senha'),
                 ),
