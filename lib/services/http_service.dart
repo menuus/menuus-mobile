@@ -2,14 +2,13 @@ import 'dart:convert' as convert;
 import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:menuus_mobile/controllers/cart_controller.dart';
 import 'package:menuus_mobile/controllers/user_controller.dart';
 import 'package:menuus_mobile/models/establishment_model.dart';
 import 'package:menuus_mobile/models/orders_model.dart';
 import 'package:menuus_mobile/models/plate_model.dart';
 import 'package:menuus_mobile/models/user_model.dart';
 
-String _endPoint = 'https://mennus-api.rj.r.appspot.com/api';
+String _endPoint = 'https://www.menuus.com.br/api';
 
 Future getFoodCourts() async {
   var response = await http.get('$_endPoint/food_courts');
