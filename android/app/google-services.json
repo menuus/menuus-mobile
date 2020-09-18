@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "506081427577",
-    "firebase_url": "https://mennus-api.firebaseio.com",
-    "project_id": "mennus-api",
-    "storage_bucket": "mennus-api.appspot.com"
+    "project_number": "45573171869",
+    "firebase_url": "https://menuus.firebaseio.com",
+    "project_id": "menuus",
+    "storage_bucket": "menuus.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:506081427577:android:37bfc8a7e147e447e194a8",
+        "mobilesdk_app_id": "1:45573171869:android:71117f8a1743da78ac0274",
         "android_client_info": {
           "package_name": "com.example.menuus_mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "506081427577-g7beprpt8g72m4lcljgsrm30nijokobt.apps.googleusercontent.com",
+          "client_id": "45573171869-ok3jpf6e684co9aieaeim777ri6uthin.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA369ewGgxyvBkNtItq8LZGUrzf6OelLeU"
+          "current_key": "AIzaSyCr60hzhdzF4h7yqcyLSlYgyf_xxS6unLo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "506081427577-g7beprpt8g72m4lcljgsrm30nijokobt.apps.googleusercontent.com",
+              "client_id": "45573171869-ok3jpf6e684co9aieaeim777ri6uthin.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
